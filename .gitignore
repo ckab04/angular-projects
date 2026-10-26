@@ -5,3 +5,4 @@ pulse/.editorconfig
 pulse/.prettierrc
 pulse/.gitignore
 pulse/.vscode
+pulse/package-lock.json

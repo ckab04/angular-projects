@@ -1,0 +1,68 @@
+<section class="stock-list">
+  <header class="stock-list__header">
+    <h2 class="stock-list__title">Market</h2>
+
+    <!-- TODO (signals): replace the values with your computed() signals -->
+    <div class="stock-list__summary">
+      <div class="summary-item">
+        <span class="summary-item__label">Watching</span>
+        <span class="summary-item__value">3</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-item__label">Watchlist value</span>
+        <span class="summary-item__value">$1,063.65</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="stock-table" role="table" aria-label="Stocks">
+    <div class="stock-table__head" role="rowgroup">
+      <div class="stock-row stock-row--head" role="row">
+        <span role="columnheader" class="cell cell--star"><span class="sr-only">Watch</span></span>
+        <span role="columnheader" class="cell">Symbol</span>
+        <span role="columnheader" class="cell">Name</span>
+        <span role="columnheader" class="cell cell--hide-sm">Sector</span>
+        <span role="columnheader" class="cell cell--num">Price</span>
+        <span role="columnheader" class="cell cell--num">Change</span>
+        <span role="columnheader" class="cell cell--num cell--hide-sm">Volume</span>
+        <span role="columnheader" class="cell cell--num cell--hide-sm">Updated</span>
+      </div>
+    </div>
+
+    <div class="stock-table__body" role="rowgroup">
+      <!--
+        TODO (@for): this is ONE example row. Wrap it in @for with a proper track,
+        and replace the hard-coded values with bindings.
+
+        Classes to toggle:
+          - .stock-row--watched  on the row when the stock is in the watchlist
+          - .is-active           on the star button when watched (+ update aria-pressed)
+          - .change--up / .change--down on the change cell depending on price vs previousClose
+      -->
+      @for(stock of stocks; track stock.symbol){
+      <div class="stock-row stock-row--watched" role="row">
+        <span role="cell" class="cell cell--star">
+          <button type="button" class="star is-active" aria-pressed="true" aria-label="Toggle AAPL in watchlist">
+            ★
+          </button>
+        </span>
+        <span role="cell" class="cell cell--symbol">AAPL</span>
+        <span role="cell" class="cell cell--name" title="Apple Inc.">Apple Inc.</span>
+        <span role="cell" class="cell cell--hide-sm">
+          <span class="sector-tag">Technology</span>
+        </span>
+        <span role="cell" class="cell cell--num">189.52</span>
+        <span role="cell" class="cell cell--num change change--up">+1.29%</span>
+        <span role="cell" class="cell cell--num cell--hide-sm">54320000</span>
+        <span role="cell" class="cell cell--num cell--muted cell--hide-sm">19:42:10</span>
+
+    </div>
+      }
+      @empty{
+      <!-- TODO (@empty): show this when the list is empty -->
+      <div class="stock-table__empty">No stocks to display.</div>
+      }
+
+    </div>
+  </div>
+</section>

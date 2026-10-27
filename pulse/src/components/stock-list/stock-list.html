@@ -6,11 +6,11 @@
     <div class="stock-list__summary">
       <div class="summary-item">
         <span class="summary-item__label">Watching</span>
-        <span class="summary-item__value">3</span>
+        <span class="summary-item__value">{{watchedStock()}}</span>
       </div>
       <div class="summary-item">
         <span class="summary-item__label">Watchlist value</span>
-        <span class="summary-item__value">$1,063.65</span>
+        <span class="summary-item__value">{{watchListValues()}}</span>
       </div>
     </div>
   </header>
@@ -40,21 +40,27 @@
           - .change--up / .change--down on the change cell depending on price vs previousClose
       -->
       @for(stock of stocks; track stock.symbol){
-      <div class="stock-row stock-row--watched" role="row">
+      <div class="stock-row stock-row--watched" role="row"  (click)="addToWatchList(stock)">
         <span role="cell" class="cell cell--star">
-          <button type="button" class="star is-active" aria-pressed="true" aria-label="Toggle AAPL in watchlist">
+          <button
+            type="button"
+            class="star"
+            [class.is-active]="isInWatchList(stock)"
+            [class.aria-pressed]="isInWatchList(stock)"
+            aria-pressed="true"
+            aria-label="Toggle AAPL in watchlist">
             ★
           </button>
         </span>
-        <span role="cell" class="cell cell--symbol">AAPL</span>
-        <span role="cell" class="cell cell--name" title="Apple Inc.">Apple Inc.</span>
+        <span role="cell" class="cell cell--symbol">{{stock.symbol}}</span>
+        <span role="cell" class="cell cell--name" title="Apple Inc.">{{stock.name}}</span>
         <span role="cell" class="cell cell--hide-sm">
-          <span class="sector-tag">Technology</span>
+          <span class="sector-tag">{{stock.sector}}</span>
         </span>
-        <span role="cell" class="cell cell--num">189.52</span>
-        <span role="cell" class="cell cell--num change change--up">+1.29%</span>
-        <span role="cell" class="cell cell--num cell--hide-sm">54320000</span>
-        <span role="cell" class="cell cell--num cell--muted cell--hide-sm">19:42:10</span>
+        <span role="cell" class="cell cell--num">{{stock.price}}</span>
+        <span role="cell" class="cell cell--num change change--up">{{stock.previousClose}}</span>
+        <span role="cell" class="cell cell--num cell--hide-sm">{{stock.volume}}</span>
+        <span role="cell" class="cell cell--num cell--muted cell--hide-sm">{{stock.updatedAt}}</span>
 
     </div>
       }

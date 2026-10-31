@@ -16,7 +16,7 @@
      <span class="sector-tag">{{stockInput().sector}}</span>
    </span>
    <span role="cell" class="cell cell--num">{{stockInput().price}}</span>
-   <span role="cell" class="cell cell--num change change--up">{{stockInput().previousClose}}</span>
+   <span role="cell" class="cell cell--num change change--up">{{stockInput().price | change: stockInput().previousClose}}</span>
    <span role="cell" class="cell cell--num cell--hide-sm">{{stockInput().volume}}</span>
    <span role="cell" class="cell cell--num cell--muted cell--hide-sm">{{stockInput().updatedAt}}</span>
 

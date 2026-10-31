@@ -1,8 +1,9 @@
 import { Component, input, output } from '@angular/core';
 import { Stock } from '../../models/stock';
+import { ChangePipe } from '../../pipes/change-pipe';
 
 @Component({
-  imports: [],
+  imports: [ChangePipe],
   selector: 'app-stock-row',
   styleUrl: './stock-row.scss',
   templateUrl: './stock-row.html',

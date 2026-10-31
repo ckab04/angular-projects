@@ -40,29 +40,12 @@
           - .change--up / .change--down on the change cell depending on price vs previousClose
       -->
       @for(stock of stocks; track stock.symbol){
-      <div class="stock-row stock-row--watched" role="row"  (click)="addToWatchList(stock)">
-        <span role="cell" class="cell cell--star">
-          <button
-            type="button"
-            class="star"
-            [class.is-active]="isInWatchList(stock)"
-            [class.aria-pressed]="isInWatchList(stock)"
-            aria-pressed="true"
-            aria-label="Toggle AAPL in watchlist">
-            ★
-          </button>
-        </span>
-        <span role="cell" class="cell cell--symbol">{{stock.symbol}}</span>
-        <span role="cell" class="cell cell--name" title="Apple Inc.">{{stock.name}}</span>
-        <span role="cell" class="cell cell--hide-sm">
-          <span class="sector-tag">{{stock.sector}}</span>
-        </span>
-        <span role="cell" class="cell cell--num">{{stock.price}}</span>
-        <span role="cell" class="cell cell--num change change--up">{{stock.previousClose}}</span>
-        <span role="cell" class="cell cell--num cell--hide-sm">{{stock.volume}}</span>
-        <span role="cell" class="cell cell--num cell--muted cell--hide-sm">{{stock.updatedAt}}</span>
+        <app-stock-row
+          [stockInput] = "stock"
+          (stockToAdd) ="addToWatchList($event)"
+          [isStockPresent] = "isInWatchList(stock)"
 
-    </div>
+        />
       }
       @empty{
       <!-- TODO (@empty): show this when the list is empty -->

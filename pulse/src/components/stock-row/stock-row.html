@@ -1,0 +1,23 @@
+ <div class="stock-row stock-row--watched" role="row"  >
+   <span role="cell" class="cell cell--star" (click)="addOrRemoveStock(stockInput())">
+     <button
+       type="button"
+       class="star"
+       [class.is-active]="isStockPresent()"
+       [class.aria-pressed]="isStockPresent()"
+       aria-pressed="true"
+       aria-label="Toggle AAPL in watchlist">
+       ★
+     </button>
+   </span>
+   <span role="cell" class="cell cell--symbol">{{stockInput().symbol}}</span>
+   <span role="cell" class="cell cell--name" title="Apple Inc.">{{stockInput().name}}</span>
+   <span role="cell" class="cell cell--hide-sm">
+     <span class="sector-tag">{{stockInput().sector}}</span>
+   </span>
+   <span role="cell" class="cell cell--num">{{stockInput().price}}</span>
+   <span role="cell" class="cell cell--num change change--up">{{stockInput().previousClose}}</span>
+   <span role="cell" class="cell cell--num cell--hide-sm">{{stockInput().volume}}</span>
+   <span role="cell" class="cell cell--num cell--muted cell--hide-sm">{{stockInput().updatedAt}}</span>
+
+</div>

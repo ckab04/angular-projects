@@ -1,4 +1,4 @@
- <div class="stock-row stock-row--watched" role="row"  >
+ <div class="stock-row" [class.stock-row--watched]="isStockPresent()" role="row">
    <span role="cell" class="cell cell--star" (click)="addOrRemoveStock(stockInput())">
      <button
        type="button"

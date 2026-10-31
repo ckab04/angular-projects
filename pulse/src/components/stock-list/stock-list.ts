@@ -1,15 +1,17 @@
 import { Component, inject, signal, computed, effect } from '@angular/core';
 import { MarketService } from '../../services/market.service';
 import { Stock } from '../../models/stock';
-import { WatchListStock } from '../../models/watch-list-stock';
 import { StockRow } from '../stock-row/stock-row';
 
 const WATCHLIST_KEY = 'pulse.watchlist';
 
-function loadWatchList(): Set<WatchListStock> {
+function loadWatchList(): Set<string> {
   try {
     const raw = localStorage.getItem(WATCHLIST_KEY);
-    return raw ? new Set(JSON.parse(raw)) : new Set();
+    if (!raw) return new Set();
+    const saved: unknown[] = JSON.parse(raw);
+    // Storage is outside our control (old formats, manual edits): keep only valid symbols.
+    return new Set(saved.filter((item): item is string => typeof item === 'string'));
   } catch {
     return new Set();
   }
@@ -25,7 +27,9 @@ export class StockListComponent {
   private marketService = inject(MarketService);
   stocks: Stock[] = this.marketService.generateStocks();
 
-  watchList = signal<Set<WatchListStock>>(loadWatchList());
+  private readonly watchListState = signal<ReadonlySet<string>>(loadWatchList());
+  readonly watchList = this.watchListState.asReadonly();
+
   watchedStock = computed(() => this.watchList().size);
 
   constructor() {
@@ -34,27 +38,26 @@ export class StockListComponent {
     });
   }
 
-  watchListValues = computed(() =>
-    [...this.watchList().values()].reduce((sum, s) => sum + s.price, 0),
-  );
+  watchListValues = computed(() => {
+    const watched = this.watchList();
+    return this.stocks
+      .filter((stock) => watched.has(stock.symbol))
+      .reduce((sum, stock) => sum + stock.price, 0);
+  });
 
   addToWatchList(stock: Stock) {
-    const current = this.watchList();
-    const existing = [...current].find((s) => s.symbol === stock.symbol);
-
-    if (existing) {
+    this.watchListState.update((current) => {
       const next = new Set(current);
-      next.delete(existing);
-      this.watchList.set(next);
-    } else {
-      const next = new Set(current);
-      next.add({ symbol: stock.symbol, price: stock.price, isActive: true });
-      this.watchList.set(next);
-    }
-
+      if (next.has(stock.symbol)) {
+        next.delete(stock.symbol);
+      } else {
+        next.add(stock.symbol);
+      }
+      return next;
+    });
   }
 
   isInWatchList(stock: Stock): boolean {
-    return [...this.watchList()].some((s) => s.symbol === stock.symbol);
+    return this.watchList().has(stock.symbol);
   }
 }
